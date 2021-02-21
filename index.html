@@ -87,6 +87,10 @@
                     var request = gapi.client.youtube.captions.list({'videoId': 'ELVfpkx-hvQ', 'part': 'id'});
                     request.execute(function(response) {
                         console.log(response);
+                        var request = gapi.client.youtube.captions.download({'id': response.items[0].id, 'tfmt': 'srt'});
+                        request.execute(function(response) {
+                            console.log(response);
+                        }
                     });
 
                 } else {
@@ -127,8 +131,3 @@
 
     </body>
 </html>
-
-
-  
-  
-  
