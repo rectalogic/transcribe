@@ -90,7 +90,7 @@
                         var request = gapi.client.youtube.captions.download({'id': response.items[0].id, 'tfmt': 'srt'});
                         request.execute(function(response) {
                             console.log(response);
-                        }
+                        });
                     });
 
                 } else {
