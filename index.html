@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <script src="http://p3.3playmedia.com/p3sdk.1.10.7.js"></script>
+        <script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"></script>
         <title>YouTube Transcript Player</title>
         <style type="text/css">
             .p3sdk-interactive-transcript-content{
@@ -104,17 +104,12 @@
                 setSigninStatus();
             }
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script async defer src="https://apis.google.com/js/api.js"
-                onload="this.onload=function(){};handleClientLoad()"
-                onreadystatechange="if (this.readyState === 'complete') this.onload()">
-        </script>
-        <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
     </head>
-
+        
     <body>
         <div class="p3sdk-container" player_id="yt-player1" player_type="youtube">
-        
+            
+            <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
             <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/ELVfpkx-hvQ?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             <div class="p3sdk-interactive-transcript" remote-src="XXX" src_type="srt">
@@ -129,5 +124,10 @@
         
         <div id="auth-status" style="display: inline; padding-left: 25px"></div><hr>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script async defer src="https://apis.google.com/js/api.js"
+                onload="this.onload=function(){};handleClientLoad()"
+                onreadystatechange="if (this.readyState === 'complete') this.onload()">
+        </script>
     </body>
 </html>
