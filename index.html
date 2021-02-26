@@ -93,7 +93,7 @@
                     //     });
                     // });
 
-                    var request = gapi.client.drive.files.export({'fileId': '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK'});
+                    var request = gapi.client.drive.files.get({fileId: '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK', alt: 'media'});
                     request.execute(function(response) {
                         console.log(response);
                     });
