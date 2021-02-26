@@ -84,22 +84,20 @@
                     $('#revoke-access-button').css('display', 'inline-block');
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
-                    var captionsBlob = new Blob();
-                    var request = gapi.client.drive.files.get({
-                        fileId: '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK',
-                        alt: 'media'
-                    })
-                    .on('end', function () {
+                    var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
+                    var accessToken = user.getAuthResponse().access_token;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, true);
+                    xhr.setRequestHeader(`Authorization','Bearer ${accessToken}`);
+                    xhr.responseType = 'blob'
+                    xhr.onload = function() {
                         $('#transcript').html(
-                            `<div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(captionsBlob)}" src_type="srt">` +
+                            `<div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(xhr.blob)}" src_type="srt">` +
                             '    <div class="p3sdk-interactive-transcript-content"></div>' +
                             '</div>'
                         );
-                    })
-                    .on('error', function (err) {
-                        console.log('Error downloading subtitles', err);
-                    })
-                    .pipe(captionsBlob);
+                    }
+                    xhr.send();
                 } else {
                     $('#sign-in-or-out-button').html('Sign In/Authorize');
                     $('#revoke-access-button').css('display', 'none');
