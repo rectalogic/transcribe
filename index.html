@@ -31,7 +31,7 @@
         
             function initClient() {
                 // In practice, your app can retrieve one or more discovery documents.
-                var discoveryUrl = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
+                var discoveryUrls = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
                 // Initialize the gapi.client object, which app uses to make API requests.
                 // Get API key and client ID from API Console.
@@ -39,7 +39,7 @@
                 gapi.client.init({
                     'apiKey': 'AIzaSyBLhB3Z9t5akRWM7mnwhKL7STEHORTk-Jc',
                     'clientId': '721371608397-o2389mngeiskrn2ht63fev0e6m38k38m.apps.googleusercontent.com',
-                    'discoveryDocs': [discoveryUrl],
+                    'discoveryDocs': discoveryUrls,
                     'scope': SCOPE
                 }).then(function () {
                     GoogleAuth = gapi.auth2.getAuthInstance();
