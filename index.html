@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"></script>
         <title>YouTube Transcript Player</title>
         <style type="text/css">
             .p3sdk-interactive-transcript-content{
@@ -84,11 +83,17 @@
                     $('#revoke-access-button').css('display', 'inline-block');
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
+                    var videoId = 'ELVfpkx-hvQ';
                     var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
                     downloadSubtitles(user, fileId, function(blob) {
-                        $('#p3sdk-container').append(
-                            `<div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt">` +
-                            '    <div class="p3sdk-interactive-transcript-content"></div>' +
+                        $('#transcript-player').html(
+                            '<script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"></script>' +
+                            '<div class="p3sdk-container" player_id="yt-player1" player_type="youtube">' +
+                            '    <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>' +
+                            `    <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` +
+                            `    <div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt">` +
+                            '        <div class="p3sdk-interactive-transcript-content"></div>' +
+                            '    </div>' +
                             '</div>'
                         );
                     });
@@ -116,15 +121,7 @@
     </head>
         
     <body>
-        <div class="p3sdk-container" player_id="yt-player1" player_type="youtube">
-            
-            <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
-            <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/ELVfpkx-hvQ?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-            <!-- <div class="p3sdk-interactive-transcript" remote-src="https://drive.google.com/uc?id=1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK&export=download" src_type="srt">
-                <div class="p3sdk-interactive-transcript-content"></div>
-            </div> -->
-        </div>
+        <div id="transcript-player"/>
 
         <button id="sign-in-or-out-button"
                 style="margin-left: 25px">Sign In/Authorize</button>
