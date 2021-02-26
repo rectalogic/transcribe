@@ -85,19 +85,13 @@
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
                     var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
-                    var accessToken = user.getAuthResponse().access_token;
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, true);
-                    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                    xhr.responseType = 'blob'
-                    xhr.onload = function() {
-                        $('#transcript').html(
+                    downloadSubtitles(fileId, function(xhr) {
+                        $('#p3sdk-container').append(
                             `<div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(xhr.response)}" src_type="srt">` +
                             '    <div class="p3sdk-interactive-transcript-content"></div>' +
                             '</div>'
                         );
-                    }
-                    xhr.send();
+                    });
                 } else {
                     $('#sign-in-or-out-button').html('Sign In/Authorize');
                     $('#revoke-access-button').css('display', 'none');
@@ -108,6 +102,16 @@
             function updateSigninStatus() {
                 setSigninStatus();
             }
+
+            function downloadSubtitles(fileId, onload) {
+                var accessToken = user.getAuthResponse().access_token;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, true);
+                xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                xhr.responseType = 'blob'
+                xhr.onload = onload;
+                xhr.send();
+            }
         </script>
     </head>
         
@@ -117,7 +121,6 @@
             <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
             <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/ELVfpkx-hvQ?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-            <div id="transcript" />
             <!-- <div class="p3sdk-interactive-transcript" remote-src="https://drive.google.com/uc?id=1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK&export=download" src_type="srt">
                 <div class="p3sdk-interactive-transcript-content"></div>
             </div> -->
