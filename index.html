@@ -88,7 +88,7 @@
                     request.execute(function(response) {
                         console.log(response);
                         $('#transcript').html(
-                            `<div class="p3sdk-interactive-transcript" remote-src="data:text/plain;base64,${response}" src_type="srt">` +
+                            `<div class="p3sdk-interactive-transcript" remote-src="data:text/plain;base64,${response.body}" src_type="srt">` +
                             '    <div class="p3sdk-interactive-transcript-content"></div>' +
                             '</div>'
                         );
