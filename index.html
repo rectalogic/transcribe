@@ -21,7 +21,7 @@
 
         <script>
             var GoogleAuth;
-            var SCOPE = 'https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/drive.readonly';
+            var SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
             
             function handleClientLoad() {
                 // Load the API's client and auth2 modules.
@@ -31,7 +31,7 @@
         
             function initClient() {
                 // In practice, your app can retrieve one or more discovery documents.
-                var discoveryUrls = ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
+                var discoveryUrls = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
 
                 // Initialize the gapi.client object, which app uses to make API requests.
                 // Get API key and client ID from API Console.
@@ -84,18 +84,13 @@
                     $('#revoke-access-button').css('display', 'inline-block');
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
-                    // var request = gapi.client.youtube.captions.list({'videoId': 'ELVfpkx-hvQ', 'part': 'id'});
-                    // request.execute(function(response) {
-                    //     console.log(response);
-                    //     var request = gapi.client.youtube.captions.download({'id': response.items[0].id, 'tfmt': 'srt'});
-                    //     request.execute(function(response) {
-                    //         console.log(response);
-                    //     });
-                    // });
-
                     var request = gapi.client.drive.files.get({fileId: '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK', alt: 'media'});
                     request.execute(function(response) {
                         console.log(response);
+                        $('#transcript'.html(
+                            `<div class="p3sdk-interactive-transcript" remote-src="data:text/plain;base64,${response}" src_type="srt">` +
+                            '    <div class="p3sdk-interactive-transcript-content"></div>' +
+                            '</div>'));
                     });
                 } else {
                     $('#sign-in-or-out-button').html('Sign In/Authorize');
@@ -116,6 +111,7 @@
             <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
             <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/ELVfpkx-hvQ?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+            <div id="transcript" />
             <!-- <div class="p3sdk-interactive-transcript" remote-src="https://drive.google.com/uc?id=1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK&export=download" src_type="srt">
                 <div class="p3sdk-interactive-transcript-content"></div>
             </div> -->
