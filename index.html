@@ -85,7 +85,7 @@
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
                     var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
-                    downloadSubtitles(fileId, function(xhr) {
+                    downloadSubtitles(user, fileId, function(xhr) {
                         $('#p3sdk-container').append(
                             `<div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(xhr.response)}" src_type="srt">` +
                             '    <div class="p3sdk-interactive-transcript-content"></div>' +
@@ -103,7 +103,7 @@
                 setSigninStatus();
             }
 
-            function downloadSubtitles(fileId, onload) {
+            function downloadSubtitles(user, fileId, onload) {
                 var accessToken = user.getAuthResponse().access_token;
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, true);
