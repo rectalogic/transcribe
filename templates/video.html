@@ -7,9 +7,20 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>YouTube Transcript Player</title>
         <style type="text/css">
-            .p3sdk-interactive-transcript-content{
-                width: 100%;
+            html, body {
                 height: 100%;
+                margin: 0;
+            }
+            .p3sdk-container {
+                display: flex;
+                flex-flow: column;
+                height: 100%;
+            }
+            .p3sdk-container .video {
+                flex: 0 1 56%;
+            }
+            .p3sdk-container .transcript {
+                flex: 1 1 auto;
             }
             .p3sdk-current-word {
                 background: #fc104b;
@@ -83,16 +94,14 @@
                     $('#revoke-access-button').css('display', 'inline-block');
                     $('#auth-status').html('You are currently signed in and have granted access to this app.');
 
-                    var videoId = 'ELVfpkx-hvQ';
-                    var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
                     downloadSubtitles(user, function(blob) {
-                        $('#transcript-player').html(
+                        $('#content').html(
                             '<script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"/>' +
                             '<div class="p3sdk-container" player_id="yt-player1" player_type="youtube">' +
                             '    <script type="text/javascript" src="https://www.youtube.com/iframe_api"/>' +
-                            '    <iframe id="yt-player1" width="100%" height="56%" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                            '    <iframe id="yt-player1" class="video" width="100%" height="56%" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
                             `    <div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt">` +
-                            '        <div class="p3sdk-interactive-transcript-content"></div>' +
+                            '        <div class="p3sdk-interactive-transcript-content transcript"></div>' +
                             '    </div>' +
                             '</div>'
                         );
@@ -121,7 +130,7 @@
     </head>
         
     <body>
-        <div id="transcript-player"></div>
+        <div id="content"></div>
 
         <button id="sign-in-or-out-button"
                 style="margin-left: 25px">Sign In/Authorize</button>
