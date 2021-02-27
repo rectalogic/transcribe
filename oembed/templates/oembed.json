@@ -1,7 +1,7 @@
 {
 	"version": "1.0",
 	"type": "video",
-	"provider_name": "YouTube",
+	"provider_name": "YouTube Transcribe",
 	"width": 425,
 	"height": 644,
 	"title": "Cureatr oEmbed Test",
