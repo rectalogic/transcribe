@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/oembed')
 def index():
     width = int(request.args.get("maxwidth", 425))
-    height = int(request..args.get("maxheight", width * 1.5))
+    height = int(request.args.get("maxheight", width * 1.5))
     return jsonify(
         version="1.0",
         type="video",
