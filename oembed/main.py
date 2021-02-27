@@ -1,17 +1,19 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/oembed')
 def index():
+    width = int(request.get("maxwidth", 425))
+    height = int(request.get("maxheight", width * 1.5))
     return jsonify(
         version="1.0",
         type="video",
         provider_name="YouTube Transcript",
-        width=425,
-        height=644,
+        width=width,
+        height=height,
         title="Cureatr oEmbed Test",
-        html='<iframe src="https://transcribe.rectalogic.com/" width="425" height="644"></iframe>',
+        html=f'<iframe src="https://transcribe.rectalogic.com/" width="{width}" height="{height}"></iframe>',
     )
 
 app.run(host='0.0.0.0', port=8080)
