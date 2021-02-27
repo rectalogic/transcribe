@@ -1,9 +1,0 @@
-{
-	"version": "1.0",
-	"type": "video",
-	"provider_name": "YouTube Transcribe",
-	"width": 425,
-	"height": 644,
-	"title": "Cureatr oEmbed Test",
-	"html": "<iframe src=\"https://transcribe.rectalogic.com/\" width=\"425\" height=\"644\"></iframe>"
-}
