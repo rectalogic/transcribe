@@ -8,18 +8,24 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/video/<video_id>/<captions_id>")
+def video(video_id, captions_id):
+    return render_template("video.html", video_id=video_id, captions_id=captions_id)
+
+
 @app.route("/oembed")
 def oembed():
     width = int(request.args.get("maxwidth", 425))
     height = int(request.args.get("maxheight", width * 1.5))
+    url = request.args["url"]
     return jsonify(
         version="1.0",
         type="video",
-        provider_name="YouTube Transcript",
+        provider_name="YouTube Transcript Player",
         width=width,
         height=height,
-        title="Cureatr oEmbed Test",
-        html=f'<iframe src="https://transcribe.rectalogic.com/" frameborder="0" width="{width}" height="{height}"></iframe>',
+        title="YouTube Transcript Player",
+        html=f'<iframe src="{url}" frameborder="0" width="{width}" height="{height}"></iframe>',
     )
 
 

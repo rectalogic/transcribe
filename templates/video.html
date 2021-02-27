@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="alternate" type="application/json+oembed" href="https://transcribe.rectalogic.com/oembed?url=https%3A%2F%2Ftranscribe.rectalogic.com%2Fvideo%2F{{ video_id }}%2F{{ captions_id }}" title="YouTube Transcript Player">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>YouTube Transcript Player</title>
+        <style type="text/css">
+            .p3sdk-interactive-transcript-content{
+                width: 560px;
+                height: 315px;
+                overflow-y: auto;
+            }
+            .p3sdk-current-word {
+                background: #fc104b;
+                color: #fff;
+                border-radius: 2px;
+            }
+        </style>
+
+        <script>
+            var GoogleAuth;
+            var SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
+            
+            function handleClientLoad() {
+                // Load the API's client and auth2 modules.
+                // Call the initClient function after the modules load.
+                gapi.load('client:auth2', initClient);
+            }
+        
+            function initClient() {
+                // In practice, your app can retrieve one or more discovery documents.
+                var discoveryUrls = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
+
+                // Initialize the gapi.client object, which app uses to make API requests.
+                // Get API key and client ID from API Console.
+                // 'scope' field specifies space-delimited list of access scopes.
+                gapi.client.init({
+                    'apiKey': 'AIzaSyBLhB3Z9t5akRWM7mnwhKL7STEHORTk-Jc',
+                    'clientId': '721371608397-o2389mngeiskrn2ht63fev0e6m38k38m.apps.googleusercontent.com',
+                    'discoveryDocs': discoveryUrls,
+                    'scope': SCOPE
+                }).then(function () {
+                    GoogleAuth = gapi.auth2.getAuthInstance();
+            
+                    // Listen for sign-in state changes.
+                    GoogleAuth.isSignedIn.listen(updateSigninStatus);
+            
+                    // Handle initial sign-in state. (Determine if user is already signed in.)
+                    var user = GoogleAuth.currentUser.get();
+                    setSigninStatus();
+            
+                    // Call handleAuthClick function when user clicks on
+                    //      "Sign In/Authorize" button.
+                    $('#sign-in-or-out-button').click(function() {
+                        handleAuthClick();
+                    });
+                    $('#revoke-access-button').click(function() {
+                        revokeAccess();
+                    });
+                });
+            }
+        
+            function handleAuthClick() {
+                if (GoogleAuth.isSignedIn.get()) {
+                    // User is authorized and has clicked "Sign out" button.
+                    GoogleAuth.signOut();
+                } else {
+                    // User is not signed in. Start Google auth flow.
+                    GoogleAuth.signIn();
+                }
+            }
+        
+            function revokeAccess() {
+                GoogleAuth.disconnect();
+            }
+        
+            function setSigninStatus() {
+                var user = GoogleAuth.currentUser.get();
+                var isAuthorized = user.hasGrantedScopes(SCOPE);
+                if (isAuthorized) {
+                    $('#sign-in-or-out-button').html('Sign out');
+                    $('#revoke-access-button').css('display', 'inline-block');
+                    $('#auth-status').html('You are currently signed in and have granted access to this app.');
+
+                    var videoId = 'ELVfpkx-hvQ';
+                    var fileId = '1oEzgXE9K5JWWe1qVqw0okczh0KrfTDfK';
+                    downloadSubtitles(user, function(blob) {
+                        $('#transcript-player').html(
+                            '<script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"/>' +
+                            '<div class="p3sdk-container" player_id="yt-player1" player_type="youtube">' +
+                            '    <script type="text/javascript" src="https://www.youtube.com/iframe_api"/>' +
+                            '    <iframe id="yt-player1" width="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                            `    <div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt">` +
+                            '        <div class="p3sdk-interactive-transcript-content"></div>' +
+                            '    </div>' +
+                            '</div>'
+                        );
+                    });
+                } else {
+                    $('#sign-in-or-out-button').html('Sign In/Authorize');
+                    $('#revoke-access-button').css('display', 'none');
+                    $('#auth-status').html('You have not authorized this app or you are signed out.');
+                }
+            }
+        
+            function updateSigninStatus() {
+                setSigninStatus();
+            }
+
+            function downloadSubtitles(user, onload) {
+                var accessToken = user.getAuthResponse().access_token;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://www.googleapis.com/drive/v3/files/{{ captions_id }}?alt=media', true);
+                xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                xhr.responseType = 'blob'
+                xhr.onload = function() { onload(xhr.response); };
+                xhr.send();
+            }
+        </script>
+    </head>
+        
+    <body>
+        <div id="transcript-player"></div>
+
+        <button id="sign-in-or-out-button"
+                style="margin-left: 25px">Sign In/Authorize</button>
+        <button id="revoke-access-button"
+                style="display: none; margin-left: 25px">Revoke access</button>
+        
+        <div id="auth-status" style="display: inline; padding-left: 25px"></div><hr>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script async defer src="https://apis.google.com/js/api.js"
+                onload="this.onload=function(){};handleClientLoad()"
+                onreadystatechange="if (this.readyState === 'complete') this.onload()">
+        </script>
+    </body>
+</html>
