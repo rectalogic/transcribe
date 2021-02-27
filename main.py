@@ -18,7 +18,7 @@ def oembed():
         width=width,
         height=height,
         title="Cureatr oEmbed Test",
-        html=f"<iframe src="https://transcribe.rectalogic.com/" frameborder="0" width="{width}" height="{height}"></iframe>",
+        html=f'<iframe src="https://transcribe.rectalogic.com/" frameborder="0" width="{width}" height="{height}"></iframe>',
     )
 
 
