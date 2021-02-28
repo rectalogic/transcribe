@@ -16,8 +16,14 @@ def video(video_id, captions_id):
 
 @app.route("/oembed")
 def oembed():
-    width = int(request.args.get("maxwidth", 425))
-    height = int(request.args.get("maxheight", width * 1.5))
+    WIDTH = 560
+    HEIGHT = 315
+    width = int(request.args.get("maxwidth", WIDTH))
+    height = int(request.args.get("maxheight", HEIGHT))
+    if width != WIDTH or height != HEIGHT:
+        meet_scale = min(width / WIDTH, height / HEIGHT)
+        width = int(width * meet_scale)
+        height = int(height * meet_scale)
     url = request.args["url"]
     return jsonify(
         version="1.0",
