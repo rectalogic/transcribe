@@ -101,9 +101,10 @@
                 var user = GoogleAuth.currentUser.get();
                 var isAuthorized = user.hasGrantedScopes(SCOPE);
                 if (isAuthorized) {
+                    $('#content').css('display', 'block');
                     $('#sign-in-or-out-button').html('Sign out');
                     $('#revoke-access-button').css('display', 'inline-block');
-                    $('#auth-status').html('You are currently signed in and have granted access to this app.');
+                    $('#auth-status').html(`You are currently signed in as ${user.getBasicProfile().getEmail()} and have granted access to this app.`);
 
                     downloadSubtitles(user, function(blob) {
                         $('#content').html(
@@ -118,6 +119,7 @@
                         );
                     });
                 } else {
+                    $('#content').css('display', 'none');
                     $('#sign-in-or-out-button').html('Sign In/Authorize');
                     $('#revoke-access-button').css('display', 'none');
                     $('#auth-status').html('You have not authorized this app or you are signed out.');
@@ -129,6 +131,7 @@
             }
 
             function downloadSubtitles(user, onload) {
+                // Search for a subtitle file shared with us and named after this videoid
                 gapi.client.drive.files.list({
                     corpora: 'domain',
                     q: "name = '{{ video_id }}.srt'",
@@ -153,13 +156,11 @@
         
     <body>
         <div id="content"></div>
-
         <button id="sign-in-or-out-button"
                 style="margin-left: 25px">Sign In/Authorize</button>
         <button id="revoke-access-button"
                 style="display: none; margin-left: 25px">Revoke access</button>
-        
-        <div id="auth-status" style="display: inline; padding-left: 25px"></div><hr>
+        <div id="auth-status" style="display: inline; padding-left: 25px"></div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script async defer src="https://apis.google.com/js/api.js"
