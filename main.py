@@ -9,9 +9,9 @@ def index():
                                "index.html", mimetype="text/html")
 
 
-@app.route("/video/<video_id>/<captions_id>")
+@app.route("/video/<video_id>")
 def video(video_id, captions_id):
-    return render_template("video.html", video_id=video_id, captions_id=captions_id)
+    return render_template("video.html", video_id=video_id)
 
 
 @app.route("/oembed")
