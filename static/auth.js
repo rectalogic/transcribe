@@ -1,6 +1,6 @@
 var GoogleAuth;
 
-function initializeClient(scope, apiKey, clientId, discoveryDocs, authControlsId, onSigninStatusChange) {
+function loadClient(scope, apiKey, clientId, discoveryDocs, authControlsId, onSigninStatusChange) {
     // Load the API's client and auth2 modules.
     // Call the initClient function after the modules load.
     gapi.load('client:auth2', function () {

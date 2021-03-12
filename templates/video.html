@@ -39,7 +39,7 @@
                 border-radius: 2px;
             }
         </style>
-        <script src="static/auth.js"></script>
+        <script src="/static/auth.js"></script>
         <script>
             function handleClientLoad() {
                 var scope = 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/youtube.readonly';
@@ -47,7 +47,7 @@
                 var clientId = '721371608397-o2389mngeiskrn2ht63fev0e6m38k38m.apps.googleusercontent.com';
                 var discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'];
                 var authControlsId = 'auth-controls';
-                initializeClient(scope, apiKey, clientId, discoveryDocs, authControlsId, onSigninStatusChange);
+                loadClient(scope, apiKey, clientId, discoveryDocs, authControlsId, onSigninStatusChange);
             }
 
             function onSigninStatusChange(user) {
