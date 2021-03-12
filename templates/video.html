@@ -82,8 +82,8 @@
 
                         gapi.client.drive.files.get(
                             {fileId: captions_id, alt: 'media'}
-                        ).then(function (response, rawResponse) {
-                            onload(rawResponse.body);
+                        ).then(function (response) {
+                            onload(response.body);
                         }, function (reason) {
                             alert(`Failed to fetch subtitle file: ${reason}`);
                         });
