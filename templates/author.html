@@ -18,21 +18,27 @@
 
             function onSigninStatusChange(user) {
                 if (user) {
-                    var request = gapi.client.youtube.captions.list({'videoId': '{{ video_id }}', 'part': 'id'});
-                    request.execute(function(response) {
-                        var request = gapi.client.youtube.captions.download({'id': response.items[0].id, 'tfmt': 'srt'});
-                        request.execute(function(response) {
+                    gapi.client.youtube.captions.list({
+                        videoId: '{{ video_id }}', part: 'id'
+                    }).then(function (response) {
+                        gapi.client.youtube.captions.download({
+                            id: response.items[0].id, tfmt: 'srt'
+                        }).then(function (response) {
                             console.log(response);
+                        }, function (reason) {
+                            alert(`Failed to fetch captions from YouTube: ${reason}`);
                         });
+                    }, function (reason) {
+                        alert(`Failed to list captions on YouTube: ${reason}`);
                     });
                 }
             }
         </script>
     </head>
-        
+
     <body>
         <div id="auth-controls"></div>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script async defer src="https://apis.google.com/js/api.js"
                 onload="this.onload=function(){};handleClientLoad()"
