@@ -10,7 +10,7 @@ def index():
 
 
 @app.route("/video/<video_id>")
-def video(video_id, captions_id):
+def video(video_id):
     return render_template("video.html", video_id=video_id)
 
 
