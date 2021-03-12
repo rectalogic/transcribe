@@ -79,13 +79,18 @@
                     var files = response.result.files;
                     if (files && files.length > 0) {
                         var captions_id = files[0].id;
-                        var accessToken = user.getAuthResponse().access_token;
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${captions_id}?alt=media`, true);
-                        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-                        xhr.responseType = 'blob'
-                        xhr.onload = function() { onload(xhr.response); };
-                        xhr.send();
+
+                        var request = gapi.client.drive.files.get({fileId: captions_id, alt: 'media'})
+                        request.execute(function(response, rawResponse) {
+                            console.log(rawResponse);
+                        });
+                        // var accessToken = user.getAuthResponse().access_token;
+                        // var xhr = new XMLHttpRequest();
+                        // xhr.open('GET', `https://www.googleapis.com/drive/v3/files/${captions_id}?alt=media`, true);
+                        // xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                        // xhr.responseType = 'blob'
+                        // xhr.onload = function() { onload(xhr.response); };
+                        // xhr.send();
                     } else {
                         alert('Could not find subtitle file named {{ video_id }}.srt');
                     }

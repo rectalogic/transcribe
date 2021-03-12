@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>YouTube Transcript Author</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    </head>
+        
+    <body>
+        <div>
+        Enter a YouTube video id of a video you own.
+        This will copy the transcript into your Google Drive account for the player.
+        </div>
+        <input id="videoId"/>
+        <button onclick="window.location = `/author/${$('videoId').val()}">Submit</button>
+    </body>
+</html>

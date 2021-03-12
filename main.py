@@ -14,6 +14,16 @@ def video(video_id):
     return render_template("video.html", video_id=video_id)
 
 
+@app.route("/author/<video_id>")
+def author_video(video_id):
+    return render_template("author.html", video_id=video_id)
+
+
+@app.route("/author")
+def author():
+    return app.send_static_file("author.html")
+
+
 @app.route("/oembed")
 def oembed():
     WIDTH = 560

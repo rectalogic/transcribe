@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>YouTube Transcript Author</title>
+        <script src="/static/auth.js"></script>
+        <script>
+            function handleClientLoad() {
+                var scope = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/youtube.force-ssl';
+                var apiKey = 'AIzaSyA2Cj7J4_Ywj2Ou48IO4d7mSCzGs8APHJw';
+                var clientId = '721371608397-h8gukgprv4sfceq42lgua2se9al4urov.apps.googleusercontent.com';
+                var discoveryDocs = ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'];
+                var authControlsId = 'auth-controls';
+                loadClient(scope, apiKey, clientId, discoveryDocs, authControlsId, onSigninStatusChange);
+            }
+
+            function onSigninStatusChange(user) {
+                if (user) {
+                    var request = gapi.client.youtube.captions.list({'videoId': '{{ video_id }}', 'part': 'id'});
+                    request.execute(function(response) {
+                        var request = gapi.client.youtube.captions.download({'id': response.items[0].id, 'tfmt': 'srt'});
+                        request.execute(function(response) {
+                            console.log(response);
+                        });
+                    });
+                }
+            }
+        </script>
+    </head>
+        
+    <body>
+        <div id="auth-controls"></div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script async defer src="https://apis.google.com/js/api.js"
+                onload="this.onload=function(){};handleClientLoad()"
+                onreadystatechange="if (this.readyState === 'complete') this.onload()">
+        </script>
+    </body>
+</html>
