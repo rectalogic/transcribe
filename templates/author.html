@@ -21,13 +21,17 @@
                     gapi.client.youtube.captions.list({
                         videoId: '{{ video_id }}', part: 'id'
                     }).then(function (response) {
-                        gapi.client.youtube.captions.download({
-                            id: response.items[0].id, tfmt: 'srt'
-                        }).then(function (response) {
-                            console.log(response);
-                        }, function (reason) {
-                            alert(`Failed to fetch captions from YouTube: ${reason}`);
-                        });
+                        if (response.result && response.result.items.length > 0) {
+                            gapi.client.youtube.captions.download({
+                                id: response.result.items[0].id, tfmt: 'srt'
+                            }).then(function (response) {
+                                console.log(response);
+                            }, function (reason) {
+                                alert(`Failed to fetch captions from YouTube: ${reason}`);
+                            });
+                        } else {
+                            alert('No captions found on YouTube');
+                        }
                     }, function (reason) {
                         alert(`Failed to list captions on YouTube: ${reason}`);
                     });
