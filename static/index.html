@@ -4,13 +4,14 @@
         <title>YouTube Transcript Player</title>
     </head>
     <body>
-        Upload a video to youtube and extract the video id:
+        Upload a video to youtube and extract the videoId from the URL:
         <p><code>https://youtu.be/<span style="color: green">ELVfpkx-hvQ</span></code></p>
         <p>
-            Download SRT subtitles from the YouTube video and upload SRT subtitle file to Google Drive named <code>{video_id}.srt</code>, e.g. <code>ELVfpkx-hvQ.srt</code>
-            Make the file shared to and searchable by everyone in the domain.
+            Go to <a href="/author">YouTube Transcript Author</a> and enter the video id.
+            This will download the transcript and publish to your Google Drive as a
+            file named <code>{videoId}.srt</code>, shared to your domain.
         </p>
-        Construct transcript player URL:
+        Construct transcript player URL using the videoId:
         <p><code>https://transcribe.rectalogic.com/video/<span style="color: green">ELVfpkx-hvQ</span></code></p>
     </body>
 </html>

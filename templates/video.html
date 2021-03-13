@@ -4,6 +4,11 @@
         <link rel="alternate" type="application/json+oembed" href="https://transcribe.rectalogic.com/oembed?url=https%3A%2F%2Ftranscribe.rectalogic.com%2Fvideo%2F{{ video_id }}" title="YouTube Transcript Player" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="twitter:card" content="player">
+        <meta name="twitter:title" content="YouTube Transcript Player">
+        <meta name="twitter:player" content="https://transcribe.rectalogic.com/video/{{ video_id }}">
+        <meta name="twitter:player:width" content="320">
+        <meta name="twitter:player:height" content="180">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>YouTube Transcript Player</title>
         <style type="text/css">
@@ -84,7 +89,7 @@
                         }).then(function (response) {
                             onload(new Blob([response.body], {type : 'application/x-subrip'}));
                         }, function (reason) {
-                            alert(`Failed to fetch subtitle file: ${reason}`);
+                            alert(`Failed to fetch subtitle file: ${reason.body}`);
                         });
                     } else {
                         alert('Could not find subtitle file named {{ video_id }}.srt');

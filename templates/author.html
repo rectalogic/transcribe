@@ -25,15 +25,17 @@
                             gapi.client.youtube.captions.download({
                                 id: response.result.items[0].id, tfmt: 'srt'
                             }).then(function (response) {
+                                // XXX upload response.body to goole drive, share to domain and allow searchable
+                                // https://developers.google.com/drive/api/v3/reference/permissions/create
                                 console.log(response);
                             }, function (reason) {
-                                alert(`Failed to fetch captions from YouTube: ${reason}`);
+                                alert(`Failed to fetch captions from YouTube: ${reason.body}`);
                             });
                         } else {
                             alert('No captions found on YouTube');
                         }
                     }, function (reason) {
-                        alert(`Failed to list captions on YouTube: ${reason}`);
+                        alert(`Failed to list captions on YouTube: ${reason.body}`);
                     });
                 }
             }
