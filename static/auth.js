@@ -73,13 +73,3 @@ function setSigninStatus(scope, onSigninStatusChange) {
         onSigninStatusChange(null);
     }
 }
-
-function invokeApi(user, uri, responseType, callback) {
-    var accessToken = user.getAuthResponse().access_token;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', uri, true);
-    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-    xhr.responseType = responseType;
-    xhr.onload = function() { callback(xhr.response); };
-    xhr.send();
-}

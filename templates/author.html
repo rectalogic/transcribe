@@ -22,20 +22,15 @@
                         videoId: '{{ video_id }}', part: 'id'
                     }).then(function (response) {
                         if (response.result && response.result.items.length > 0) {
-                            // gapi.client.youtube.captions.download is broken
-                            // https://issuetracker.google.com/issues/182485057
-                            invokeApi(user, `/youtube/v3/captions/${response.result.items[0].id}?tfmt=srt`, 'blob', function (response) {
+                            gapi.client.youtube.captions.download({
+                                id: response.result.items[0].id, tfmt: 'srt'
+                            }).then(function (response) {
+                                // XXX upload response.body to goole drive, share to domain and allow searchable
+                                // https://developers.google.com/drive/api/v3/reference/permissions/create
                                 console.log(response);
+                            }, function (reason) {
+                                alert(`Failed to fetch captions from YouTube: ${reason.body}`);
                             });
-                            // gapi.client.youtube.captions.download({
-                            //     id: response.result.items[0].id, tfmt: 'srt'
-                            // }).then(function (response) {
-                            //     // XXX upload response.body to goole drive, share to domain and allow searchable
-                            //     // https://developers.google.com/drive/api/v3/reference/permissions/create
-                            //     console.log(response);
-                            // }, function (reason) {
-                            //     alert(`Failed to fetch captions from YouTube: ${reason.body}`);
-                            // });
                         } else {
                             alert('No captions found on YouTube');
                         }
