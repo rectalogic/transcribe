@@ -25,9 +25,38 @@
                             gapi.client.youtube.captions.download({
                                 id: response.result.items[0].id, tfmt: 'srt'
                             }).then(function (response) {
-                                // XXX upload response.body to goole drive, share to domain and allow searchable
-                                // https://developers.google.com/drive/api/v3/reference/permissions/create
-                                console.log(response);
+                                // XXX broken https://issuetracker.google.com/issues/182485057
+                                console.log(response); // XXX
+                                gapi.client.drive.files.create({
+                                    resource: {
+                                        'name': '{{ video_id }}.srt'
+                                    },
+                                    media: {
+                                        mimeType: 'application/x-subrip',
+                                        body: response.body
+                                    },
+                                    fields: 'id'
+                                }).then(function (response) {
+                                    // Share to domain and make searchable
+                                    gapi.client.drive.permissions.create({
+                                        fileId: response.id,
+                                        resource: [
+                                            {
+                                                'type': 'domain',
+                                                'role': 'reader',
+                                                'domain': 'cureatr.com'
+                                            }
+                                        ],
+                                        allowFileDiscovery: true,
+                                        fields: 'id'
+                                    }).then(function (response) {
+                                        alert('{{ video_id }}.srt created and shared');
+                                    }, function (reason) {
+                                        alert(`Failed to create drive file permissions: ${reason.body}`);
+                                    });
+                                }, function (reason) {
+                                    alert(`Failed to create drive file: ${reason.body}`);
+                                });
                             }, function (reason) {
                                 alert(`Failed to fetch captions from YouTube: ${reason.body}`);
                             });
