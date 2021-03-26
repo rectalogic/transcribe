@@ -77,7 +77,7 @@ function setSigninStatus(scope, onSigninStatusChange) {
 function invokeApi(user, uri, responseType, callback) {
     var accessToken = user.getAuthResponse().access_token;
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', `https://youtube.googleapis.com${uri}`, true);
+    xhr.open('GET', uri, true);
     xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
     xhr.responseType = responseType;
     xhr.onload = function() { callback(xhr.response); };
