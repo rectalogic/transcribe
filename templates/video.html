@@ -147,20 +147,43 @@
                 if (user) {
                     $('#content').css('display', 'block');
                     downloadSubtitles(user, function(blob) {
-                        $('#content').html(
-                            '<script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"/>' +
-                            '<div class="p3sdk-container" player_id="yt-player1" player_type="youtube">' +
-                            '    <script type="text/javascript" src="https://www.youtube.com/iframe_api"/>' +
-                            `    <iframe id="yt-player1" width="100%" height="100%" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` +
-                            `    <div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt" clip_urls="true">` +
-                            '        <input type="text" class="p3sdk-interactive-transcript-searchbox"/>' +
-                            '        <div class="p3sdk-interactive-transcript-progressbar" search_result_marker="&#8226;">' +
-                            '            <div class="p3sdk-interactive-transcript-progress"></div>' +
-                            '        </div>' +
-                            '        <div class="p3sdk-interactive-transcript-content"></div>' +
-                            '    </div>' +
-                            '</div>'
-                        );
+                        $('#content').html(`
+                            <script src="https://p3.3playmedia.com/p3sdk.1.10.7.js"/>
+                            <div class="p3sdk-container" player_id="yt-player1" player_type="youtube">
+                                <script type="text/javascript" src="https://www.youtube.com/iframe_api"/>
+                                <iframe id="yt-player1" width="100%" height="100%" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <div class="sidebarcontainer">
+                                    <button id="sidebarcontainer__button" class="sidebarcontainer__button" title="more options">&#x2699;</button>
+                                    <div id="sidebarcontainer__content" class="sidebarcontainer__content">
+                                        <h2 class="sidebarcontainer__header">
+                                            Transcription Nation
+                                        </h2>
+                                        <div class="p3sdk-interactive-transcript" remote-src="${URL.createObjectURL(blob)}" src_type="srt" clip_urls="true" light_scroll="true">
+                                            <div class="download-transcript-container">
+                                                <a href="javascript:void(0);" class="p3sdk-interactive-transcript-download" title="Download Transcript" download_format="pdf">Download Transcript</a>
+                                            </div>
+                                            <input type="text" class="p3sdk-interactive-transcript-searchbox" placeholder="start searching..."/>
+                                            <div class="p3sdk-interactive-transcript-progressbar" search_result_marker="&#xe30f;">
+                                                <div class="p3sdk-interactive-transcript-progress"></div>
+                                            </div>
+                                            <div class="p3sdk-interactive-transcript-content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        document.querySelector('#sidebarcontainer__button').addEventListener('click', function() {
+                            var youtubeIframe = document.querySelector('#yt-player1');
+                            var sideBarContent = document.querySelector('#sidebarcontainer__content');
+
+                            if (sideBarContent.classList.contains('sidebarcontainer__content--active')) {
+                                youtubeIframe.style.width = '100vw';
+                                sideBarContent.classList.remove('sidebarcontainer__content--active');
+                            } else {
+                                youtubeIframe.style.width = '65vw';
+                                sideBarContent.classList.add('sidebarcontainer__content--active');
+                            }
+                        });
                     });
                 } else {
                     $('#content').css('display', 'none');
